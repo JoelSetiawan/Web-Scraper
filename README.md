@@ -2,8 +2,8 @@
     Why?
 
     I want to track my vocabulary by first tracking what 
-strings I am typing onto my computer so that I can
-see my vocabulary usage statistics. 
+    strings I am typing onto my computer so that I can
+    see my vocabulary usage statistics. 
 
     Design
 
