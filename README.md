@@ -1,26 +1,34 @@
-# Keylogger
+# Web Scraper
+
     Why?
 
-    I want to track my vocabulary by first tracking what 
-    strings I am typing onto my computer so that I can
-    see my vocabulary usage statistics. 
+    I want to create a program that can quickly extract data and collect it into a database.
 
-    Design
+    Practical applications: Stock Ticker Information, Updates For Websites I love, and Regex applications, creating a persona for a person based on their internet patterns.
 
-        My Prediction for an Algorithm for a Keylogger
-        1. Log file to put output.
-        2. A way to detect text input.
-        3. A way to record text input.
-        4. A way to write text input onto log.
-        5. A way to sleep the program to reduce usage to 0%.
-        6. Creating an executable so that I run the program constantly.
+    Startup
 
-        The recommendation for an algorithm for a keylogger
-        1. Create a log file to store output
-        2. Intercept keys pressed with getAsyncKeyState() function
-        3. Store intercepted values in log
-        4. Hide the Running Window Dialogue to make it undetectable
-        5. Use while looping to run in all conditions
-        6. Add Sleep function to reduce CPU usage to 0%
+    A web scraper is a program that is able to transfer data, parse it, and collect it.
+    To turn this data into something that I can use, I need to convert the data into a format that is
+    usable. C++ has libraries that are able to interpret XML well. XML is an eXtensive markup language that
+    is much more friendly to C++ than HTML. To convert the data into XML, I am going to collect the data through
+    an HTML library, then I can work on converting the XML into some meaningful information (interpreting data).
 
-        
+    Important things for quality control:
+
+    Spolsky Test - 12 Rules
+    Version Control
+    Build in One Step
+    Daily Builds
+    Bug Database
+    Fix Bugs before writing new Code
+    Up-to-date Schedules
+    Write a Specification
+    Work in a Quiet Environment
+    Use the Best Tools
+    Test your Code 
+    (Make your applicants write code in the interview)
+    Hallway Usability -> Ask Someone to Playtest your Program
+
+
+
