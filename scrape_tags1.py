@@ -2,9 +2,9 @@
 from bs4 import BeautifulSoup
 
 import sys
-
 import requests
 
+import string
 import re
 
 """ The plan is to create a web scraper that relies on input from my program, then we expand it to taking in user input, then expand the features
@@ -44,38 +44,59 @@ of the data we have scraped onto a file/database, and/or organizes this. """
 If I try to import another file as a header, python decides to run the whole other file before this file. 
 We can scale this requests by allowing the link to come from user input or a file. """
 
+def wordCounter(string):
+    pass
+
+""" Parses list of find_all object """
+# Improvement would be to make it so that all attributes are printed out: tag, a href, image, etc.
+# Postcondition: none
+def parse_list(input_data, name):
+    if (input_data):
+        index = 0
+        for data in input_data:
+            index += 1
+            print(f'{name} #{index}: {data}')
+        print(f'{index} Entries Found for {name}\n')
+    else:
+    # Formats
+        print(f'No Entries Found for {name}\n')
+        
 
 def main(argv):
     html = requests.get('http://www.mikiyakobayashi.com')
     
     SoupObject = BeautifulSoup(html.text, 'html.parser');
     prettifiedSoup = SoupObject.prettify()
-
-    print(f'This is the prettified version of our beautiful soup: ' + prettifiedSoup)
+    # print(f'This is the ugly version of our beautiful soup: {SoupObject}')
+    # print(f'This is the prettified version of our beautiful soup: ' + prettifiedSoup)
 
     images = SoupObject.find_all('img')
-    print(images)
+    parse_list(images, 'Image')
+
+    # Finds all with the id light
+    lightCount = SoupObject.find_all(id='light')
+    parse_list(lightCount, '\'Light\'')
+    # This doesn't work
+    # SoupObject.find_all(class='green')
+    # This works
+    
+    green_classes = SoupObject.find_all(class_ = 'green')
+    parse_list(green_classes, '\'Green\' Class')
+    # This first returns all ids with watch, and is not useful for finding both id and class.
+    green_watch_classes = SoupObject.find_all(id='watch', class_='green')
+    parse_list(green_watch_classes, '\'Green\' & \'Watch\' Class')
+
+    # Find all of the words from the text
+    text_eyes = SoupObject.find_all(text='eyes')
+    parse_list(text_eyes, '\'Eyes\' in Text')
+
+    # Redundant, Pre-Regex way to try and find all Header tags
+    all_headers = SoupObject.find_all(['h1', 'h2', 'h3', 'h4', 'h5', 'h6'])
+    parse_list(all_headers, 'Header')
+
+    # Finds all spans with class green or red.
+    green_red_spans = SoupObject.find_all('span', {'class':{'green', 'red'}})
+    parse_list(green_red_spans, '\'Green\' & \'Red\' Class')
 
 if __name__ == "__main__":
     main(sys.argv) 
-
-# index = 0
-# for picture in pictureList:
-#     print(f'Picture #{index} is {picture}')
-#     index += 1
-
-# """ There's an easy way to scale these for loops, but for redundancy sake I am keeping them separate. """
-
-# """ I'm trying to figure out how to shorten the html link so that I can extract the ttle of the photo. """
-# """ I guess that's where you have to use text processing """
-# linkList = bs.find_all('a href')
-# index = 1
-# for link in linkList:
-#     print(f'Link #{index} is {link}')
-#     index += 1
-
-# """ Parse the link. """
-# def linkParser(link):
-#     str.replace(link, '/', ' ')
-#     return link
-
