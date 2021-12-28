@@ -44,9 +44,6 @@ of the data we have scraped onto a file/database, and/or organizes this. """
 If I try to import another file as a header, python decides to run the whole other file before this file. 
 We can scale this requests by allowing the link to come from user input or a file. """
 
-def wordCounter(string):
-    pass
-
 """ Parses list of find_all object """
 # Improvement would be to make it so that all attributes are printed out: tag, a href, image, etc.
 # Postcondition: none
@@ -58,45 +55,73 @@ def parse_list(input_data, name):
             print(f'{name} #{index}: {data}')
         print(f'{index} Entries Found for {name}\n')
     else:
-    # Formats
         print(f'No Entries Found for {name}\n')
-        
 
-def main(argv):
-    html = requests.get('http://www.mikiyakobayashi.com')
-    
-    SoupObject = BeautifulSoup(html.text, 'html.parser');
-    prettifiedSoup = SoupObject.prettify()
-    # print(f'This is the ugly version of our beautiful soup: {SoupObject}')
-    # print(f'This is the prettified version of our beautiful soup: ' + prettifiedSoup)
+# Learning about the parse_find_all command.     
+def parse_find_all(soup_object):
 
-    images = SoupObject.find_all('img')
+    # pretty_soup = soup_object.prettify()
+    images = soup_object.find_all('img')
     parse_list(images, 'Image')
 
     # Finds all with the id light
-    lightCount = SoupObject.find_all(id='light')
-    parse_list(lightCount, '\'Light\'')
-    # This doesn't work
-    # SoupObject.find_all(class='green')
-    # This works
-    
-    green_classes = SoupObject.find_all(class_ = 'green')
+    light_count = soup_object.find_all(id='light')
+    parse_list(light_count, '\'Light\'')
+
+    green_classes = soup_object.find_all(class_ = 'green')
     parse_list(green_classes, '\'Green\' Class')
+
     # This first returns all ids with watch, and is not useful for finding both id and class.
-    green_watch_classes = SoupObject.find_all(id='watch', class_='green')
+    green_watch_classes = soup_object.find_all(id='watch', class_='green')
     parse_list(green_watch_classes, '\'Green\' & \'Watch\' Class')
 
     # Find all of the words from the text
-    text_eyes = SoupObject.find_all(text='eyes')
+    text_eyes = soup_object.find_all(text='eyes')
     parse_list(text_eyes, '\'Eyes\' in Text')
 
     # Redundant, Pre-Regex way to try and find all Header tags
-    all_headers = SoupObject.find_all(['h1', 'h2', 'h3', 'h4', 'h5', 'h6'])
+    all_headers = soup_object.find_all(['h1', 'h2', 'h3', 'h4', 'h5', 'h6'])
     parse_list(all_headers, 'Header')
 
     # Finds all spans with class green or red.
-    green_red_spans = SoupObject.find_all('span', {'class':{'green', 'red'}})
+    green_red_spans = soup_object.find_all('span', {'class':{'green', 'red'}})
     parse_list(green_red_spans, '\'Green\' & \'Red\' Class')
 
+# Parse table siblings.
+# Precondition: Beautiful Soup Object - Check for this
+def parse_table_siblings(soup_object):
+
+    """ # Retrieves each sibling inside the table row.
+    print(f'For table row next siblings')
+    for sibling in soup_object.find('table').tr.next_siblings:
+        print(f'{sibling}')
+    print(f'\n')
+
+    # Gets the header
+    print(f'For table row in general.')
+    for row in soup_object.find('table').tr:
+        print(f'{row}')
+    print(f'\n') """
+
+    print(f'For table + giftlist children.')
+    for child in soup_object.find('table', {'id':'giftList'}).children:
+        print(f'{child}')
+    print(f'\n')
+
+    print(f'For table + giftlist descendants.')
+    for child in soup_object.find('table', {'id':'giftList'}).descendants:
+        print(f'{child}')
+    print(f'\n')
+    
+
+def main(argv):
+    html = requests.get('http://www.mikiyakobayashi.com')
+    site_1_text = BeautifulSoup(html.text, 'html.parser')
+    # parse_find_all(site_1_text)
+
+    html = requests.get('http://www.pythonscraping.com/pages/page3.html')
+    site_2_text = BeautifulSoup(html.text, 'html.parser')
+    parse_table_siblings(site_2_text)
+    
 if __name__ == "__main__":
     main(sys.argv) 
